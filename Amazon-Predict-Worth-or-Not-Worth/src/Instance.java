@@ -1,0 +1,15 @@
+public class Instance {
+    double[] features;
+    String label;
+    String splitFeature;
+
+    public Instance(double[] features, String label, String splitFeature) {
+        this.features = features;
+        this.label = label;
+        this.splitFeature = splitFeature;
+    }
+
+    public double[] getFeatures() {
+        return features;
+    }
+}
