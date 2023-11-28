@@ -155,7 +155,7 @@ public class DecisionTree{
         return impurity;
     }
 
-    private double calculateGini(List<Instance> data) {
+    double calculateGini(List<Instance> data) {
         int total = data.size();
         if (total == 0) {
             return 0;
@@ -174,7 +174,7 @@ public class DecisionTree{
         return impurity;
     }
 
-    private boolean isHomogeneous(List<Instance> data) {
+    boolean isHomogeneous(List<Instance> data) {
         Set<String> uniqueLabels = new HashSet<>();
         for (Instance instance : data) {
             uniqueLabels.add(instance.label);
@@ -185,7 +185,7 @@ public class DecisionTree{
         return true;
     }
 
-    private String getMajorityLabel(List<Instance> data) {
+    String getMajorityLabel(List<Instance> data) {
         Map<String, Long> labelCounts = data.stream().collect(Collectors.groupingBy(instance -> instance.label, Collectors.counting()));
         return Collections.max(labelCounts.entrySet(), Map.Entry.comparingByValue()).getKey();
     }

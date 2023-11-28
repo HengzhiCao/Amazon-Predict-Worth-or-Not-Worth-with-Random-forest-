@@ -20,7 +20,7 @@ public class RandomForest {
      * @param data The list of instances to sample from.
      * @return The bootstrap sample.
      */
-    private List<Instance> bootstrapSample(List<Instance> data) {
+    List<Instance> bootstrapSample(List<Instance> data) {
         Random random = new Random();
         List<Instance> sample = new ArrayList<>();
 
@@ -54,4 +54,6 @@ public class RandomForest {
 
         return Collections.max(voteCounts.entrySet(), Map.Entry.comparingByValue()).getKey();
     }
+
+
 }

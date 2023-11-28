@@ -9,7 +9,4 @@ public class Instance {
         this.splitFeature = splitFeature;
     }
 
-    public double[] getFeatures() {
-        return features;
-    }
 }
