@@ -1,5 +1,6 @@
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class DecisionTree{
     static class TreeNode {
@@ -38,7 +39,7 @@ public class DecisionTree{
      */
     public TreeNode train(List<Instance> data, int currentDepth) {
         // Print training information
-        System.out.println("Training: Current depth = " + currentDepth + ", Data size = " + data.size());
+//        System.out.println("Training: Current depth = " + currentDepth + ", Data size = " + data.size());
 
 
         // Check termination conditions
@@ -47,7 +48,7 @@ public class DecisionTree{
             TreeNode leaf = new TreeNode();
             leaf.label = getMajorityLabel(data);
             // Print debug information
-            System.out.println("Creating leaf node with label: " + leaf.label);
+//            System.out.println("Creating leaf node with label: " + leaf.label);
             return leaf;
         }
 
@@ -58,7 +59,7 @@ public class DecisionTree{
             TreeNode leaf = new TreeNode();
             leaf.label = getMajorityLabel(data);
             // Print debug information
-            System.out.println("Creating leaf node due to no split found, with label: " + leaf.label);
+//            System.out.println("Creating leaf node due to no split found, with label: " + leaf.label);
             return leaf;
         }
 
@@ -79,7 +80,7 @@ public class DecisionTree{
         }
 
         // Print debug information
-        System.out.println("Splitting node at featureIndex: " + node.featureIndex + " with threshold: " + node.threshold);
+//        System.out.println("Splitting node at featureIndex: " + node.featureIndex + " with threshold: " + node.threshold);
 
         // Recursively train the left and right subtrees
         node.left = train(leftData, currentDepth + 1);
@@ -100,28 +101,36 @@ public class DecisionTree{
      * @param data The list of instances to find the best split for.
      * @return The best split found.
      */
+    /**
+     * Finds the best split for a given list of instances.
+     *
+     * @param data The list of instances to find the best split for.
+     * @return The best split found.
+     * Diversifying by Feature Projection
+     */
     private Split findBestSplit(List<Instance> data) {
-        // Initialize the best split and impurity
         Split bestSplit = new Split();
         double bestImpurity = Double.MAX_VALUE;
         int numFeatures = data.get(0).features.length;
+        int numFeaturesToConsider = numFeatures / 2; // 选择一半的特征
 
-        // Iterate over each feature
-        for (int featureIndex = 0; featureIndex < numFeatures; featureIndex++) {
-            // Get the unique values for the current feature
+        // 随机选择特征
+        List<Integer> shuffledFeatureIndices = IntStream.range(0, numFeatures).boxed().collect(Collectors.toList());
+        Collections.shuffle(shuffledFeatureIndices);
+        List<Integer> selectedFeatureIndices = shuffledFeatureIndices.subList(0, numFeaturesToConsider);
+
+        // 只在选定的特征中寻找最佳分裂点
+        for (int featureIndex : selectedFeatureIndices) {
             Set<Double> featureValues = new HashSet<>();
             for (Instance instance : data) {
                 featureValues.add(instance.features[featureIndex]);
             }
 
-            // Iterate over each unique value as a potential threshold
             for (double threshold : featureValues) {
-                // Create a new split with the current feature index and threshold
                 Split split = new Split();
                 split.featureIndex = featureIndex;
                 split.threshold = threshold;
 
-                // Split the data into left and right splits based on the threshold
                 List<Instance> leftSplit = new ArrayList<>();
                 List<Instance> rightSplit = new ArrayList<>();
                 for (Instance instance : data) {
@@ -132,10 +141,7 @@ public class DecisionTree{
                     }
                 }
 
-                // Calculate the impurity of the split
                 double impurity = calculateImpurity(leftSplit, rightSplit);
-
-                // Update the best split if the current impurity is lower
                 if (impurity < bestImpurity) {
                     bestImpurity = impurity;
                     bestSplit = split;
@@ -143,7 +149,6 @@ public class DecisionTree{
             }
         }
 
-        // Return the best split found
         return bestSplit;
     }
 
@@ -186,6 +191,10 @@ public class DecisionTree{
     }
 
     String getMajorityLabel(List<Instance> data) {
+        if (data.isEmpty()) {
+            // Handle the case of empty data, for example, return a default label or throw an exception
+            return "defaultLabel"; // or throw a more specific exception
+        }
         Map<String, Long> labelCounts = data.stream().collect(Collectors.groupingBy(instance -> instance.label, Collectors.counting()));
         return Collections.max(labelCounts.entrySet(), Map.Entry.comparingByValue()).getKey();
     }

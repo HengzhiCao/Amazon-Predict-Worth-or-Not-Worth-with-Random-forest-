@@ -120,23 +120,5 @@ public class Unit_Test {
         return data;
     }
 
-//    @Test
-//    public void testDecisionTreeTrainingAndPredictionWithActualLabelsInarray() {
-//        decisionTree.train(trainingData, 0);
-//
-//        List<Instance> testingData = createTestingData();
-//        List<String> actualLabels = Arrays.asList("Yes", "No", "Yes"); // Replace with actual labels
-//
-//        for (int i = 0; i < testingData.size(); i++) {
-//            Instance testInstance = testingData.get(i);
-//            String predictedLabel = decisionTree.predict(testInstance, decisionTree.getRoot());
-//            System.out.println("Predicted: " + predictedLabel + ", Actual: " + actualLabels.get(i));
-//            Assert.assertNotNull("Predicted label should not be null", predictedLabel);
-//            Assert.assertEquals("Predicted label should match actual label", actualLabels.get(i), predictedLabel);
-//        }
-//    }
 
-
-
-    // Additional tests for RandomForest and other methods...
 }
