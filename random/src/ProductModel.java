@@ -11,7 +11,22 @@ public class ProductModel {
         this.csvFilePath = csvFilePath;
     }
 
-    public List<Product> getFilteredProducts(double priceFrom, double priceTo, String searchKeyword) throws IOException {
+    public List<Product> getFilteredProducts(double priceFrom, double priceTo, String productName) throws IOException {
+        List<Product> allProducts = getProducts();
+        List<Product> filteredProducts = new ArrayList<>();
+
+        for (Product product : allProducts) {
+            if (product.getDiscountedPrice() >= priceFrom && product.getDiscountedPrice() <= priceTo) {
+                if (productName.isEmpty() || product.getName().toLowerCase().contains(productName.toLowerCase())) {
+                    filteredProducts.add(product);
+                }
+            }
+        }
+
+        return filteredProducts;
+    }
+
+    public List<Product> getProducts() throws IOException {
         List<Product> products = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(csvFilePath))) {
             String line;
@@ -19,20 +34,28 @@ public class ProductModel {
             while ((line = br.readLine()) != null) {
                 if (isFirstLine) {
                     isFirstLine = false;
-                    continue;
+                    continue; // 跳过标题行
                 }
 
                 String[] values = line.split(",");
-                try {
-                    double price = Double.parseDouble(values[1]);
-                    if (price >= priceFrom && price <= priceTo) {
-                        if (searchKeyword == null || searchKeyword.isEmpty() || values[6].toLowerCase().contains(searchKeyword.toLowerCase())) {
-                            Product product = new Product(values[6], values[8], price, values[7]);
-                            products.add(product);
-                        }
+                if (values.length >= 10) {
+                    try {
+                        String id = values[0];
+                        double discountedPrice = Double.parseDouble(values[1]);
+                        double actualPrice = Double.parseDouble(values[2]);
+                        double discountPercentage = Double.parseDouble(values[3]);
+                        double rating = Double.parseDouble(values[4]);
+                        int ratingCount = Integer.parseInt(values[5]);
+                        String name = values[6];
+                        String category = values[7];
+                        String imageUrl = values[8];
+                        String description = values[9];
+
+                        Product product = new Product(id, name, discountedPrice, actualPrice, discountPercentage, rating, ratingCount, imageUrl, description, category);
+                        products.add(product);
+                    } catch (NumberFormatException e) {
+                        // 处理解析错误
                     }
-                } catch (NumberFormatException e) {
-                    // 处理解析错误
                 }
             }
         }

@@ -11,13 +11,32 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         SwingUtilities.invokeLater(() -> {
-            String csvFilePath = "C:\\Users\\cao10\\Downloads\\Amazon-Predict-Worth-or-Not-Worth-with-Random-forest-\\amazon_product.csv";
-            ProductModel model = new ProductModel(csvFilePath);
-            ProductController controller = new ProductController(model);
-            MainView view = new MainView(controller);
+            try {
+                // 初始化随机森林模型
+                RandomForestModel randomForestModel = new RandomForestModel();
 
-            view.setVisible(true);
+                // 创建预测控制器，传入随机森林模型
+                PredictionController predictionController = new PredictionController(randomForestModel.getRandomForest());
+
+                // CSV文件路径
+                String csvFilePath = "C:\\Users\\cao10\\Downloads\\Amazon-Predict-Worth-or-Not-Worth-with-Random-forest-\\amazon_product.csv";
+
+                // 创建产品模型
+                ProductModel model = new ProductModel(csvFilePath);
+
+                // 创建产品控制器，传入产品模型和预测控制器
+                ProductController productController = new ProductController(model, predictionController);
+
+                // 创建并显示主视图
+                MainView mainView = new MainView(productController);
+                mainView.setVisible(true);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                // 处理异常，例如显示错误消息
+            }
         });
+
 
 
 

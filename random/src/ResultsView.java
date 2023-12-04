@@ -8,7 +8,12 @@ public class ResultsView extends JFrame {
     private JList<Product> productList;
     private DefaultListModel<Product> productModel;
 
+    private PredictionController predictionController; // 添加对 PredictionController 的引用
+
+
     public ResultsView() {
+        this.predictionController = predictionController; // 初始化 PredictionController 引用
+
         setTitle("Search Results");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -32,7 +37,7 @@ public class ResultsView extends JFrame {
     private void onViewDetails() {
         Product selectedProduct = productList.getSelectedValue();
         if (selectedProduct != null) {
-            new ProductDetailView(selectedProduct).setVisible(true);
+            new ProductDetailView(selectedProduct, predictionController).setVisible(true); // 使用 PredictionController 创建 ProductDetailView
         }
     }
 }

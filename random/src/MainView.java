@@ -62,10 +62,14 @@ public class MainView extends JFrame {
     }
 
     private void onSearch() {
-        double priceFrom = Double.parseDouble(priceFromField.getText());
-        double priceTo = Double.parseDouble(priceToField.getText());
-        String productName = productNameField.getText();
-        controller.handleSearch(priceFrom, priceTo, productName, this);
+        try {
+            double priceFrom = priceFromField.getText().isEmpty() ? Double.MIN_VALUE : Double.parseDouble(priceFromField.getText());
+            double priceTo = priceToField.getText().isEmpty() ? Double.MAX_VALUE : Double.parseDouble(priceToField.getText());
+            String productName = productNameField.getText();
+            controller.handleSearch(priceFrom, priceTo, productName, this);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Please enter valid numbers for price.", "Input Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void onSelectProduct() {

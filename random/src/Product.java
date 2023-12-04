@@ -1,36 +1,76 @@
 public class Product {
+    private String id;
     private String name;
+    private double discountedPrice;
+    private double actualPrice;
+    private double discountPercentage;
+    private double rating;
+    private int ratingCount;
     private String imageUrl;
-    private double price;
     private String description;
+    private String category;
 
-    public Product(String name, String imageUrl, double price, String description) {
+    public Product(String id, String name, double discountedPrice, double actualPrice, double discountPercentage, double rating, int ratingCount, String imageUrl, String description, String category) {
+        this.id = id;
         this.name = name;
+        this.discountedPrice = discountedPrice;
+        this.actualPrice = actualPrice;
+        this.discountPercentage = discountPercentage;
+        this.rating = rating;
+        this.ratingCount = ratingCount;
         this.imageUrl = imageUrl;
-        this.price = price;
         this.description = description;
+        this.category = category;
     }
 
     // Getters
+    public String getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public double getDiscountedPrice() {
+        return discountedPrice;
+    }
+
+    public double getActualPrice() {
+        return actualPrice;
+    }
+
+    public double getDiscountPercentage() {
+        return discountPercentage;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public int getRatingCount() {
+        return ratingCount;
     }
 
     public String getImageUrl() {
         return imageUrl;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
     public String getDescription() {
         return description;
+    }
+
+    public String getCategory() {
+        return category;
     }
 
     // toString 方法用于在列表中显示产品名称
     @Override
     public String toString() {
-        return name;
+        return name + " - " + id;
+    }
+
+    public double getPrice() {
+        return discountedPrice;
     }
 }

@@ -1,19 +1,71 @@
 import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
 
 public class ProductDetailView extends JFrame {
-    public ProductDetailView(Product product) {
-        setTitle("Product Details");
-        setSize(300, 200);
-        setLayout(new GridLayout(0, 1));
+    private JLabel nameLabel;
+    private JLabel priceLabel;
+    private JLabel descriptionLabel;
+    private JLabel imageLabel;
+    private JButton predictButton;
+    private Product product;
+    private PredictionController predictionController;
 
-        add(new JLabel("Name: " + product.getName()));
-        add(new JLabel("Price: " + product.getPrice()));
-        add(new JLabel("Category: " + product.getDescription()));
-        add(new JLabel(new ImageIcon(product.getImageUrl()))); // 显示图片，需要有效的URL
+    public ProductDetailView(Product product, PredictionController predictionController) {
+        this.product = product;
+        this.predictionController = predictionController;
 
-        JButton closeButton = new JButton("Close");
-        closeButton.addActionListener(e -> setVisible(false));
-        add(closeButton);
+        initializeUI();
+    }
+
+    private void initializeUI() {
+        setTitle("Product Detail");
+        setSize(400, 300);
+        setLayout(new BorderLayout());
+
+        nameLabel = new JLabel("Name: " + product.getName());
+        priceLabel = new JLabel("Price: " + product.getDiscountedPrice());
+        descriptionLabel = new JLabel("Description: " + product.getDescription());
+        imageLabel = new JLabel();
+        loadImage();
+
+        predictButton = new JButton("Predict Worth");
+        predictButton.addActionListener(e -> onPredict());
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.add(nameLabel);
+        panel.add(priceLabel);
+        panel.add(descriptionLabel);
+        panel.add(imageLabel);
+        panel.add(predictButton);
+
+        add(panel, BorderLayout.CENTER);
+    }
+
+    private void loadImage() {
+        try {
+            URL imageUrl = new URL(product.getImageUrl());
+            ImageIcon imageIcon = new ImageIcon(new ImageIcon(imageUrl).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
+            imageLabel.setIcon(imageIcon);
+        } catch (Exception e) {
+            imageLabel.setText("Image not available");
+            e.printStackTrace();
+        }
+    }
+
+    private void onPredict() {
+        String prediction = predictionController.predictProduct(product);
+        PredictionResultView resultView = new PredictionResultView();
+        resultView.displayPredictionResult(prediction);
+        resultView.setVisible(true);
+    }
+
+    public void displayProductDetails(Product product) {
+        // 更新窗口中的各个组件以显示产品信息
+        nameLabel.setText("Name: " + product.getName());
+        priceLabel.setText("Price: " + product.getDiscountedPrice());
+        descriptionLabel.setText("Description: " + product.getDescription());
+        // 可以添加更多的组件更新逻辑，例如图片、评分等
     }
 }

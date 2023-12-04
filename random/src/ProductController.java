@@ -1,12 +1,15 @@
-import javax.swing.*;
-import java.awt.*;
 import java.util.List;
-import java.util.ArrayList;
+
 public class ProductController {
     private ProductModel productModel;
 
-    public ProductController(ProductModel productModel) {
+    private ProductModel model;
+    private PredictionController predictionController;
+
+    public ProductController(ProductModel productModel, PredictionController predictionController) {
         this.productModel = productModel;
+        this.model = model;
+        this.predictionController = predictionController;
     }
 
     public void handleSearch(double priceFrom, double priceTo, String productName, MainView view) {
@@ -20,10 +23,12 @@ public class ProductController {
     }
 
     public void handleProductSelection(Product selectedProduct) {
-        // 处理用户选择的商品
-        System.out.println("Selected Product: " + selectedProduct.getName());
-        // 这里可以更新视图或调用其他业务逻辑
-    }
+        // 创建 ProductDetailView 实例并传递所需的参数
+        ProductDetailView detailView = new ProductDetailView(selectedProduct, predictionController);
+        detailView.setVisible(true);
 
+        // 可以在这里添加调用预测控制器的代码
+        // 例如：String prediction = predictionController.predictProduct(selectedProduct);
+    }
     // ... 其他方法 ...
 }
