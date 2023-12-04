@@ -11,13 +11,12 @@ public class ProductModel {
         this.csvFilePath = csvFilePath;
     }
 
-    public List<Product> getProducts() throws IOException {
+    public List<Product> getFilteredProducts(double priceFrom, double priceTo, String searchKeyword) throws IOException {
         List<Product> products = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(csvFilePath))) {
             String line;
             boolean isFirstLine = true;
             while ((line = br.readLine()) != null) {
-                // 跳过CSV文件的标题行
                 if (isFirstLine) {
                     isFirstLine = false;
                     continue;
@@ -25,18 +24,15 @@ public class ProductModel {
 
                 String[] values = line.split(",");
                 try {
-                    // 尝试解析数字字段
-                    double discountedPrice = Double.parseDouble(values[1]);
-                    Product product = new Product(
-                            values[6], // product_name
-                            values[8], // img_link
-                            discountedPrice, // discounted_price
-                            values[7] // category
-                    );
-                    products.add(product);
+                    double price = Double.parseDouble(values[1]);
+                    if (price >= priceFrom && price <= priceTo) {
+                        if (searchKeyword == null || searchKeyword.isEmpty() || values[6].toLowerCase().contains(searchKeyword.toLowerCase())) {
+                            Product product = new Product(values[6], values[8], price, values[7]);
+                            products.add(product);
+                        }
+                    }
                 } catch (NumberFormatException e) {
-                    // 处理解析错误，例如跳过这行或记录错误
-                    System.err.println("Error parsing line: " + line);
+                    // 处理解析错误
                 }
             }
         }

@@ -13,10 +13,9 @@ public class Main {
         SwingUtilities.invokeLater(() -> {
             String csvFilePath = "C:\\Users\\cao10\\Downloads\\Amazon-Predict-Worth-or-Not-Worth-with-Random-forest-\\amazon_product.csv";
             ProductModel model = new ProductModel(csvFilePath);
-            MainView view = new MainView();
             ProductController controller = new ProductController(model);
+            MainView view = new MainView(controller);
 
-            controller.fetchProductsAndDisplay(view);
             view.setVisible(true);
         });
 
