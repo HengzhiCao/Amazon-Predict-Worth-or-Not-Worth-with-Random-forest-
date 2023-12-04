@@ -221,18 +221,5 @@ public class DecisionTree{
     }
 
 
-
-    private int getIndexForFeature(String feature) {
-        Map<String, Integer> featureIndexMap = new HashMap<>();
-        featureIndexMap.put("discounted_price", 1);
-        featureIndexMap.put("actual_price", 2);
-        featureIndexMap.put("discount_percentage", 3);
-        featureIndexMap.put("rating", 4);
-        featureIndexMap.put("rating_count", 5);
-        // 其他特征的映射...
-
-        return featureIndexMap.getOrDefault(feature, -1); // 如果找不到特征，返回-1
-    }
-
 }
 
