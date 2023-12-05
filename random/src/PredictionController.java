@@ -1,9 +1,14 @@
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
+
 public class PredictionController {
     private RandomForest randomForest;
 
     public PredictionController(RandomForest randomForest) {
         this.randomForest = randomForest;
     }
+
 
     public String predictProduct(Product product) {
         double[] features = extractFeatures(product);
@@ -21,8 +26,4 @@ public class PredictionController {
         return features;
     }
 
-    public void handleProductSelection(Product product) {
-        ProductDetailView detailView = new ProductDetailView(product, this);
-        detailView.setVisible(true);
-    }
 }

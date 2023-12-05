@@ -15,7 +15,7 @@ public class Main {
                 // 初始化随机森林模型
                 RandomForestModel randomForestModel = new RandomForestModel();
 
-                // 创建预测控制器，传入随机森林模型
+                // 创建预测控制器
                 PredictionController predictionController = new PredictionController(randomForestModel.getRandomForest());
 
                 // CSV文件路径
@@ -24,11 +24,16 @@ public class Main {
                 // 创建产品模型
                 ProductModel model = new ProductModel(csvFilePath);
 
-                // 创建产品控制器，传入产品模型和预测控制器
-                ProductController productController = new ProductController(model, predictionController);
+                // 先创建 MainView 实例（暂不传入 ProductController）
+                MainView mainView = new MainView(null);
 
-                // 创建并显示主视图
-                MainView mainView = new MainView(productController);
+                // 创建 ProductController 实例，传入所有必要的参数
+                ProductController productController = new ProductController(model, predictionController, mainView);
+
+                // 现在设置 ProductController 到 MainView
+                mainView.setController(productController);
+
+                // 显示主视图
                 mainView.setVisible(true);
 
             } catch (Exception e) {
@@ -36,6 +41,7 @@ public class Main {
                 // 处理异常，例如显示错误消息
             }
         });
+    }
 
 
 
@@ -226,4 +232,3 @@ public class Main {
 //    }
 
 
-}

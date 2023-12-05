@@ -11,6 +11,20 @@ public class ProductModel {
         this.csvFilePath = csvFilePath;
     }
 
+    public List<Product> getProductsByCategory(String category) throws IOException {
+        List<Product> allProducts = getProducts();
+        List<Product> productsInCategory = new ArrayList<>();
+
+        for (Product product : allProducts) {
+            if (product.getCategory().equalsIgnoreCase(category)) {
+                productsInCategory.add(product);
+            }
+        }
+
+        return productsInCategory;
+    }
+
+
     public List<Product> getFilteredProducts(double priceFrom, double priceTo, String productName) throws IOException {
         List<Product> allProducts = getProducts();
         List<Product> filteredProducts = new ArrayList<>();

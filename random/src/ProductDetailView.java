@@ -11,11 +11,17 @@ public class ProductDetailView extends JFrame {
     private Product product;
     private PredictionController predictionController;
 
-    public ProductDetailView(Product product, PredictionController predictionController) {
+    private ProductController controller; // 添加对 ProductController 的引用
+
+
+    public ProductDetailView(Product product, PredictionController predictionController, ProductController controller) {
         this.product = product;
         this.predictionController = predictionController;
+        this.controller = controller;
+
 
         initializeUI();
+        loadImage();
     }
 
     private void initializeUI() {
@@ -59,7 +65,11 @@ public class ProductDetailView extends JFrame {
         PredictionResultView resultView = new PredictionResultView();
         resultView.displayPredictionResult(prediction);
         resultView.setVisible(true);
+
+        // 调用 ProductController 的 handlePredictionResult 方法
+        controller.handlePredictionResult(product);
     }
+
 
     public void displayProductDetails(Product product) {
         // 更新窗口中的各个组件以显示产品信息

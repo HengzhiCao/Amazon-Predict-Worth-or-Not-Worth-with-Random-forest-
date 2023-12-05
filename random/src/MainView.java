@@ -25,6 +25,21 @@ public class MainView extends JFrame {
         setupSelectButton();
     }
 
+    public void displayRecommendedProducts(List<Product> products) {
+        productModel.clear();
+        for (Product product : products) {
+            productModel.addElement(product);
+        }
+
+        // 可选：更新界面以反映推荐产品的显示，例如更改窗口标题
+        setTitle("Recommended Products");
+    }
+
+    public void notifyUserAboutUpdate() {
+        JOptionPane.showMessageDialog(this, "We've updated the product list with recommendations.", "Update Notification", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+
     private void setupInputPanel() {
         JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
@@ -85,6 +100,11 @@ public class MainView extends JFrame {
             productModel.addElement(product);
         }
     }
+
+    public void setController(ProductController controller) {
+        this.controller = controller;
+    }
+
 
     // ... 其他方法 ...
 }
