@@ -4,7 +4,18 @@ import org.junit.Test;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import static org.junit.Assert.*;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
+import java.util.ArrayList;
+
+import org.junit.Before;
+import org.junit.Test;
 
 public class Unit_Test {
 
@@ -12,16 +23,68 @@ public class Unit_Test {
     private RandomForest randomForest;
     private List<Instance> trainingData;
     private List<Instance> testingData;
+    private DataPreprocessingController controller;
+    private ProductModel productModel;
+    private PredictionController predictionController;
+    private MainView mainView;
+    private ProductController productControllerMock;
+
+
+
 
     @Before
     public void setUp() throws FileNotFoundException {
         decisionTree = new DecisionTree(3); // maxDepth = 3 for simplicity
         randomForest = new RandomForest(5, 3); // 5 trees, maxDepth = 3
+        controller = new DataPreprocessingController();
+
+
 
         // Initialize your training data here...
         trainingData = createSampleTrainingData();
         testingData = createTestingData();
+
+
     }
+
+    @Test
+    public void testValidatePrice() {
+        InputValidationController controller = new InputValidationController();
+
+        assertTrue(controller.validatePrice(10.0)); // 有效价格
+        assertFalse(controller.validatePrice(-1.0)); // 无效价格
+    }
+
+    @Test
+    public void testValidateProductName() {
+        InputValidationController controller = new InputValidationController();
+
+        assertTrue(controller.validateProductName("Product Name")); // 有效名称
+        assertFalse(controller.validateProductName("")); // 无效名称
+        assertFalse(controller.validateProductName(null)); // null 名称
+    }
+    @Test
+    public void testPreprocessProducts() {
+        // 创建包含不同初始状态的 Product 实例的列表
+        List<Product> products = Arrays.asList(
+                new Product("1", null, -1.0, 100.0, 0.5, 4.5, 10, "url", null, "category"), // 缺失名称和描述，无效价格
+                new Product("2", "Valid Product", 20.0, 100.0, 0.2, 4.0, 20, "url", "description", "category"), // 有效的产品
+                new Product("3", "", 0.0, 100.0, 0.3, 3.5, 30, "url", "", "category") // 名称和描述为空，价格为0
+        );
+
+        // 使用 DataPreprocessingController 处理这些产品
+        List<Product> preprocessed = controller.preprocessProducts(products);
+
+        // 断言预处理后的结果
+        assertEquals("Unknown", preprocessed.get(0).getName());
+        assertEquals(0.0, preprocessed.get(0).getDiscountedPrice(), 0.0);
+        assertNotNull(preprocessed.get(0).getDescription());
+
+        // ...进行更多的断言验证
+    }
+
+    // 为 Product 类提供一个简单的内部类或单独的类
+
 
 
 
@@ -36,7 +99,7 @@ public class Unit_Test {
     public void testCalculateGini() {
         List<Instance> data = createSampleTrainingData();
         double expectedGini = 0.5; // Replace with the actual expected Gini value
-        Assert.assertEquals("Gini calculation should match expected value",
+        assertEquals("Gini calculation should match expected value",
                 expectedGini, decisionTree.calculateGini(data), 0.01);
     }
 
@@ -44,7 +107,7 @@ public class Unit_Test {
     public void testBootstrapSample() {
         List<Instance> sample = randomForest.bootstrapSample(trainingData);
         Assert.assertNotNull("Bootstrap sample should not be null", sample);
-        Assert.assertEquals("Bootstrap sample size should match training data size",
+        assertEquals("Bootstrap sample size should match training data size",
                 trainingData.size(), sample.size());
     }
 
