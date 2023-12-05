@@ -13,7 +13,7 @@ import java.util.ArrayList;public class DataPreprocessingController {
                 product.setPrice(0.0);  // 将价格为空的产品价格设置为 0
             }
             if (product.getName() == null) {
-                product.setName("Unknown");  // 将名称为空的产品名称设置为 "null"
+                product.setName("Unknown");  // 将名称为空的产品名称设置为 "Unknown"
             }
             // 检查并处理其他字符串字段，如描述等
             if (product.getDescription() == null) {

@@ -3,7 +3,6 @@ import java.util.*;
 
 public class RandomForest {
     private List<DecisionTree> trees;
-    private Map<String, Integer> globalFeatureImportance = new HashMap<>();
     private int maxDepth;
 
     public RandomForest(int numTrees, int maxDepth) throws FileNotFoundException {
@@ -39,11 +38,6 @@ public class RandomForest {
         }
     }
 
-
-    private void mergeImportance(Map<String, Integer> treeImportance) {
-        treeImportance.forEach((feature, count) ->
-                globalFeatureImportance.merge(feature, count, Integer::sum));
-    }
 
     public String predict(Instance instance) {
         Map<String, Integer> voteCounts = new HashMap<>();
