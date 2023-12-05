@@ -4,6 +4,9 @@
 
 Below is the structure of the project, which follows the MVC architecture:
 
+### `random/`
+The random directory containing the source(src).
+
 ### `src/`
 The source directory containing all the code.
 
