@@ -1,3 +1,7 @@
+package Model_classifier.classifier;
+
+import Model_classifier.Instance;
+
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -185,7 +189,7 @@ public class DecisionTree{
      * @param data The list of instances in the dataset.
      * @return The Gini impurity.
      */
-    double calculateGini(List<Instance> data) {
+    public double calculateGini(List<Instance> data) {
         // Get the total number of instances in the dataset
         int total = data.size();
         if (total == 0) {

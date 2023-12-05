@@ -1,6 +1,8 @@
-import javax.swing.*;
-import java.awt.*;
-import java.util.List;
+package Controller;
+
+import Model_classifier.Instance;
+import Model_classifier.Product;
+import Model_classifier.classifier.RandomForest;
 
 public class PredictionController {
     private RandomForest randomForest;

@@ -1,3 +1,9 @@
+package Controller;
+
+import Model_classifier.Product;
+import Model_classifier.ProductModel;
+import View.MainView;
+
 import java.util.List;
 
 public class SearchController {

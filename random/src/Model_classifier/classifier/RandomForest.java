@@ -1,3 +1,8 @@
+package Model_classifier.classifier;
+
+import Model_classifier.Instance;
+import Model_classifier.classifier.DecisionTree;
+
 import java.io.FileNotFoundException;
 import java.util.*;
 
@@ -19,7 +24,7 @@ public class RandomForest {
      * @param data The list of instances to sample from.
      * @return The bootstrap sample.
      */
-    List<Instance> bootstrapSample(List<Instance> data) {
+    public List<Instance> bootstrapSample(List<Instance> data) {
         Random random = new Random();
         List<Instance> sample = new ArrayList<>();
 

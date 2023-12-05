@@ -1,3 +1,8 @@
+import Controller.ProductController;
+import Controller.PredictionController;
+import Model_classifier.ProductModel;
+import Model_classifier.RandomForestModel;
+import View.MainView;
 import javax.swing.*;
 import java.io.IOException;
 

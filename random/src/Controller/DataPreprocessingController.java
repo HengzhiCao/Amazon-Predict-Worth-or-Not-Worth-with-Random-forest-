@@ -1,7 +1,10 @@
-import javax.swing.*;
-import java.awt.*;
+package Controller;
+
+import Model_classifier.Product;
+
 import java.util.List;
-import java.util.ArrayList;public class DataPreprocessingController {
+
+public class DataPreprocessingController {
 
     public DataPreprocessingController() {
         // 构造函数

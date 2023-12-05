@@ -1,8 +1,11 @@
+package View;
+
+import Model_classifier.Product;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
-import java.util.ArrayList;
-
+import Controller.ProductController;
 
 public class MainView extends JFrame {
     private JList<Product> productList;

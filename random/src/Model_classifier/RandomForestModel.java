@@ -1,5 +1,7 @@
-import javax.swing.*;
-import java.awt.*;
+package Model_classifier;
+
+import Model_classifier.classifier.RandomForest;
+
 import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.ArrayList;
@@ -12,7 +14,6 @@ public class RandomForestModel {
             loadTrainingData();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            // 处理异常，例如记录日志或显示错误消息
         }
     }
 

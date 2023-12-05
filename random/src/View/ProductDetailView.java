@@ -1,3 +1,9 @@
+package View;
+
+import Model_classifier.Product;
+import Controller.ProductController;
+import Controller.PredictionController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.net.MalformedURLException;

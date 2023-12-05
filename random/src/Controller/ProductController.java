@@ -1,3 +1,15 @@
+package Controller;
+
+import Controller.DataPreprocessingController;
+import Controller.ErrorHandlingController;
+import Controller.InputValidationController;
+import Controller.PredictionController;
+import Model_classifier.Product;
+import Model_classifier.ProductModel;
+import View.MainView;
+import View.PredictionResultView;
+import View.ProductDetailView;
+
 import java.util.List;
 
 public class ProductController {
@@ -72,8 +84,7 @@ public class ProductController {
                 mainView.displayRecommendedProducts(recommendedProducts);
                 mainView.notifyUserAboutUpdate();  // 通知用户更新
             } catch (Exception e) {
-                // 处理异常
-            }
+                errorHandlingController.handleException(e, "Prediction Result");}
         }
     }
 

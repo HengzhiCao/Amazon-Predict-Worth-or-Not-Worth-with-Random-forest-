@@ -1,6 +1,16 @@
+package Unit_Test;
+
+import Controller.DataPreprocessingController;
+import Controller.InputValidationController;
+import Controller.PredictionController;
+import Controller.ProductController;
+import Model_classifier.*;
+import View.MainView;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import Model_classifier.classifier.RandomForest;
+import Model_classifier.classifier.DecisionTree;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -8,14 +18,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.List;
-import java.util.ArrayList;
-
-import org.junit.Before;
-import org.junit.Test;
 
 public class Unit_Test {
 

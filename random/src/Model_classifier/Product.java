@@ -1,3 +1,5 @@
+package Model_classifier;
+
 public class Product {
     private String id;
     private String name;
