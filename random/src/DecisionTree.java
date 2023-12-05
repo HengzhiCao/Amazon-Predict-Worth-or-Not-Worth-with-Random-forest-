@@ -18,10 +18,14 @@ public class DecisionTree{
     }
 
     private int maxDepth;
-    private Map<String, Integer> featureImportance = new HashMap<>();
 
     private TreeNode root;
 
+    /**
+     * Returns the root node of the tree.
+     *
+     * @return the root node
+     */
     public TreeNode getRoot() {
         return root;
     }
@@ -152,25 +156,49 @@ public class DecisionTree{
         return bestSplit;
     }
 
+    /**
+     * Calculates the impurity of a split given the left and right splits.
+     *
+     * @param leftSplit  the list of instances in the left split
+     * @param rightSplit the list of instances in the right split
+     * @return the impurity of the split
+     */
     private double calculateImpurity(List<Instance> leftSplit, List<Instance> rightSplit) {
+        // Calculate the total number of instances in both splits
         double total = leftSplit.size() + rightSplit.size();
+
+        // Initialize the impurity
         double impurity = 0.0;
+
+        // Calculate the impurity of the left split and add it to the impurity
         impurity += (leftSplit.size() / total) * calculateGini(leftSplit);
+
+        // Calculate the impurity of the right split and add it to the impurity
         impurity += (rightSplit.size() / total) * calculateGini(rightSplit);
+
+        // Return the impurity of the split
         return impurity;
     }
-
+    /**
+     * Calculate the Gini impurity of a given dataset.
+     *
+     * @param data The list of instances in the dataset.
+     * @return The Gini impurity.
+     */
     double calculateGini(List<Instance> data) {
+        // Get the total number of instances in the dataset
         int total = data.size();
         if (total == 0) {
             return 0;
         }
 
+        // Count the number of instances for each label
         Map<String, Integer> counts = new HashMap<>();
         for (Instance instance : data) {
             counts.merge(instance.label, 1, Integer::sum);
         }
 
+        // Calculate the Gini impurity
         double impurity = 1.0;
         for (Map.Entry<String, Integer> entry : counts.entrySet()) {
             double prob = entry.getValue() / (double) total;
@@ -179,40 +207,73 @@ public class DecisionTree{
         return impurity;
     }
 
+    /**
+     * Checks if the given list of instances is homogeneous.
+     * A list is considered homogeneous if all instances have the same label.
+     *
+     * @param data The list of instances to check.
+     * @return True if the list is homogeneous, false otherwise.
+     */
     boolean isHomogeneous(List<Instance> data) {
+        // Create a set to store unique labels
         Set<String> uniqueLabels = new HashSet<>();
+
+        // Iterate over each instance in the data list
         for (Instance instance : data) {
+            // Add the label of the instance to the set of unique labels
             uniqueLabels.add(instance.label);
+
+            // If there are more than one unique labels, the list is not homogeneous
             if (uniqueLabels.size() > 1) {
                 return false;
             }
         }
+
+        // If all instances have the same label, the list is homogeneous
         return true;
     }
 
+    /**
+     * Returns the majority label from a list of instances.
+     * If the list is empty, returns a default label.
+     * @param data The list of instances.
+     * @return The majority label.
+     */
     String getMajorityLabel(List<Instance> data) {
+        // Check if the list is empty
         if (data.isEmpty()) {
             // Handle the case of empty data, for example, return a default label or throw an exception
             return "defaultLabel"; // or throw a more specific exception
         }
+
+        // Count the occurrences of each label in the list
         Map<String, Long> labelCounts = data.stream().collect(Collectors.groupingBy(instance -> instance.label, Collectors.counting()));
+
+        // Find the label with the highest count
         return Collections.max(labelCounts.entrySet(), Map.Entry.comparingByValue()).getKey();
     }
 
 
-    public Map<String, Integer> getFeatureImportance() {
-        return featureImportance;
-    }
-
+    /**
+     * Predicts the label for the given instance using the decision tree.
+     *
+     * @param instance The instance for which to predict the label.
+     * @param node The current node in the decision tree.
+     * @return The predicted label for the instance.
+     * @throws IllegalStateException If the node is null.
+     */
     public String predict(Instance instance, TreeNode node) {
+        // Check if the node is null
         if (node == null) {
             throw new IllegalStateException("Node is null. Current instance: " + Arrays.toString(instance.features));
         }
 
+        // Check if the node is a leaf node
         if (node.left == null && node.right == null) {
-            return node.label; // 到达叶子节点
+            return node.label; // Reached a leaf node
         }
 
+        // Traverse the decision tree based on the instance features
         if (instance.features[node.featureIndex] <= node.threshold) {
             return predict(instance, node.left);
         } else {
