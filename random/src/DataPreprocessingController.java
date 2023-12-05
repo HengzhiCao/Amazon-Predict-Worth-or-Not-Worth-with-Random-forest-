@@ -23,4 +23,24 @@ import java.util.ArrayList;public class DataPreprocessingController {
         }
         return products;
     }
+
+    public void calculateMissingIncorrectValue(Product product) {
+        // Fill in missing discounted price based on actual price and discount percentage
+        if (product.getDiscountedPrice() <= 0) {
+            double calculatedDiscountedPrice = product.getActualPrice() * (1 - product.getDiscountPercentage() / 100);
+            product.setPrice(calculatedDiscountedPrice);
+        }
+
+        // Set rating to 0 if it's missing
+        if (product.getRating() < 0) {
+            product.setRating(0);
+        }
+
+        // Set rating count to 0 if it's missing
+        if (product.getRatingCount() < 0) {
+            product.setRatingCount(0);
+        }
+
+        // Add any additional preprocessing logic needed for other fields
+    }
 }

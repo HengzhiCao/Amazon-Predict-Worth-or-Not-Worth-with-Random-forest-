@@ -82,8 +82,50 @@ public class Unit_Test {
 
         // ...进行更多的断言验证
     }
+    @Test
+    public void testCalculateMissingDiscountedPrice() {
+        // Input
+        Product product = new Product("", "", -1.0, 100.0, 20.0, 0.0, 0, "", "", "");
 
-    // 为 Product 类提供一个简单的内部类或单独的类
+        // Action
+        controller.calculateMissingIncorrectValue(product);
+
+        // Expected Output
+        assertEquals("Discounted price should be calculated based on actual price and discount percentage",
+                80.0,
+                product.getDiscountedPrice(),
+                0.01);
+    }
+
+    @Test
+    public void testCalculateMissingRatingScore() {
+        // Input
+        Product product = new Product("", "", 0.0, 0.0, 0.0, -1.0, 0, "", "", "");
+
+        // Action
+        controller.calculateMissingIncorrectValue(product);
+
+        // Expected Output
+        assertEquals("Missing rating score should be given a 0",
+                0.0,
+                product.getRating(),
+                0.01);
+    }
+
+    @Test
+    public void testCalculateMissingRatingCount() {
+        // Input
+        Product product = new Product("", "", 0.0, 0.0, 0.0, 0.0, -1, "", "", "");
+
+        // Action
+        controller.calculateMissingIncorrectValue(product);
+
+        // Expected Output
+        assertEquals("Missing rating count should be considered as null (0 for int representation)",
+                0,
+                product.getRatingCount());
+    }
+
 
 
 

@@ -85,4 +85,12 @@ public class Product {
     public void setDescription(String aNull) {
         description = aNull;
     }
+
+    public void setRating(int i) {
+        rating = i;
+    }
+
+    public void setRatingCount(int i) {
+        ratingCount = i;
+    }
 }
