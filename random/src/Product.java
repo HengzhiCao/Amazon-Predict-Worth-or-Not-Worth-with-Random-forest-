@@ -73,4 +73,16 @@ public class Product {
     public double getPrice() {
         return discountedPrice;
     }
+
+    public void setPrice(double v) {
+        discountedPrice = v;
+    }
+
+    public void setName(String aNull) {
+        name = aNull;
+    }
+
+    public void setDescription(String aNull) {
+        description = aNull;
+    }
 }

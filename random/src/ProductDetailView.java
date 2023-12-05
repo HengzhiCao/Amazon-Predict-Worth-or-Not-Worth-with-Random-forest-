@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 public class ProductDetailView extends JFrame {
@@ -51,14 +52,23 @@ public class ProductDetailView extends JFrame {
 
     private void loadImage() {
         try {
-            URL imageUrl = new URL(product.getImageUrl());
-            ImageIcon imageIcon = new ImageIcon(new ImageIcon(imageUrl).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
-            imageLabel.setIcon(imageIcon);
+            String imageUrl = product.getImageUrl();
+            if (imageUrl != null && imageUrl.startsWith("http")) {  // 确保 URL 有效
+                URL url = new URL(imageUrl);
+                ImageIcon imageIcon = new ImageIcon(new ImageIcon(url).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
+                imageLabel.setIcon(imageIcon);
+            } else {
+                imageLabel.setText("Image not available");
+            }
+        } catch (MalformedURLException e) {
+            imageLabel.setText("Invalid image URL");
+            e.printStackTrace();
         } catch (Exception e) {
-            imageLabel.setText("Image not available");
+            imageLabel.setText("Error loading image");
             e.printStackTrace();
         }
     }
+
 
     private void onPredict() {
         String prediction = predictionController.predictProduct(product);
