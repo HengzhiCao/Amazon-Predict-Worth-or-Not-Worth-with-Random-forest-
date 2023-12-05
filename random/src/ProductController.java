@@ -11,6 +11,12 @@ public class ProductController {
 
     private DataPreprocessingController dataPreprocessingController;
 
+    private ErrorHandlingController errorHandlingController;
+
+    private InputValidationController inputValidationController;
+
+
+
 
 
     public ProductController(ProductModel productModel, PredictionController predictionController, MainView mainView) {
@@ -19,16 +25,30 @@ public class ProductController {
         this.mainView = mainView;
         this.predictionResultView = new PredictionResultView();
         this.dataPreprocessingController = new DataPreprocessingController();
+        this.errorHandlingController = new ErrorHandlingController();
+        this.inputValidationController = new InputValidationController();
+
 
     }
 
     public void handleSearch(double priceFrom, double priceTo, String productName, MainView view) {
+        if (!inputValidationController.validatePrice(priceFrom) || !inputValidationController.validatePrice(priceTo)) {
+            view.showError("Invalid price range");
+            return;
+        }
         try {
             List<Product> products = productModel.getFilteredProducts(priceFrom, priceTo, productName);
             List<Product> preprocessedProducts = dataPreprocessingController.preprocessProducts(products);
+            if (products.isEmpty()) {
+                // 如果产品列表为空，通知用户没有找到产品
+                view.showInfo("No products found in the database matching your criteria.");
+            } else {
+                // 否则显示产品列表
+                view.displayProducts(products);
+            }
             view.displayProducts(preprocessedProducts);
         } catch (Exception e) {
-            e.printStackTrace();
+            errorHandlingController.handleException(e, "Search Operation");
         }
     }
 

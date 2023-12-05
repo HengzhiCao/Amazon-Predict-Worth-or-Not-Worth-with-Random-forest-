@@ -39,6 +39,14 @@ public class MainView extends JFrame {
         JOptionPane.showMessageDialog(this, "We've updated the product list with recommendations with same category, Because the product is not worth.", "Update Notification", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    public void showError(String message) {
+        JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public void showInfo(String message) {
+        JOptionPane.showMessageDialog(this, message, "Information", JOptionPane.INFORMATION_MESSAGE);
+    }
+
 
     private void setupInputPanel() {
         JPanel inputPanel = new JPanel();
