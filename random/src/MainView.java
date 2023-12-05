@@ -36,7 +36,7 @@ public class MainView extends JFrame {
     }
 
     public void notifyUserAboutUpdate() {
-        JOptionPane.showMessageDialog(this, "We've updated the product list with recommendations.", "Update Notification", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "We've updated the product list with recommendations with same category, Because the product is not worth.", "Update Notification", JOptionPane.INFORMATION_MESSAGE);
     }
 
 
